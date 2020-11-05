@@ -1,4 +1,4 @@
-const { IMAGES } = require('../constants');
+import { IMAGES } from '../constants';
 
 const loadingReducer = (state = false, action) => {
     switch (action.type) {

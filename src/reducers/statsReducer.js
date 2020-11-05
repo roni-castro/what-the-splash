@@ -1,8 +1,8 @@
-const { IMAGE_STATS: IMAGE_STATUS } = require('../constants');
+import { IMAGE_STATS } from '../constants';
 
 const statsReducer = (state = {}, action) => {
     switch (action.type) {
-        case IMAGE_STATUS.LOAD:
+        case IMAGE_STATS.LOAD:
             return {
                 ...state,
                 [action.id]: {
@@ -11,7 +11,7 @@ const statsReducer = (state = {}, action) => {
                     error: null,
                 },
             };
-        case IMAGE_STATUS.LOAD_FAIL:
+        case IMAGE_STATS.LOAD_FAIL:
             return {
                 ...state,
                 [action.id]: {
@@ -20,7 +20,7 @@ const statsReducer = (state = {}, action) => {
                     error: action.error,
                 },
             };
-        case IMAGE_STATUS.LOAD_SUCCESS:
+        case IMAGE_STATS.LOAD_SUCCESS:
             return {
                 ...state,
                 [action.id]: {

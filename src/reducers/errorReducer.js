@@ -1,4 +1,4 @@
-const { IMAGES } = require('../constants');
+import { IMAGES } from '../constants';
 
 const errorReducer = (state = false, action) => {
     switch (action.type) {
