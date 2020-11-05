@@ -11,7 +11,7 @@ const Stats = ({ stats }) => {
         <span className="stats">
             {stats.error && '🤯 Error!'}
             {stats.isLoading && '🙄 Loading...'}
-            {stats.downloads !== null && `🤘 ${stats.downloads}`}
+            {stats.downloads !== null && `🤘 ${stats.downloads.total}`}
         </span>
     );
 };

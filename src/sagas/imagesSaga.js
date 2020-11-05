@@ -1,21 +1,20 @@
-import { put, call, takeEvery, select } from 'redux-saga/effects';
-
-import { setImages, setError } from '../actions';
+import { put, call, select, takeEvery } from 'redux-saga/effects';
 import { IMAGES } from '../constants';
 import { fetchImages } from '../api';
+import { setError, setImages } from '../actions';
 
-export const getPage = state => state.nextPage;
+const getPage = state => state.nextPage;
 
-export function* handleImagesLoad() {
+function* handleImageLoad() {
     try {
         const page = yield select(getPage);
         const images = yield call(fetchImages, page);
         yield put(setImages(images));
-    } catch (error) {
-        yield put(setError(error.toString()));
+    } catch (err) {
+        yield put(setError(err));
     }
 }
 
-export default function* watchImagesLoad() {
-    yield takeEvery(IMAGES.LOAD, handleImagesLoad);
+export default function* watchImageLoad() {
+    yield takeEvery(IMAGES.LOAD, handleImageLoad);
 }

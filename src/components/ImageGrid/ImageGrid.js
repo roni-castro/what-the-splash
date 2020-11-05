@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { loadImages } from '../../actions';
 import Button from '../Button';
 import Stats from '../Stats';
-import { loadImages } from '../../actions';
 import './styles.css';
 
 class ImageGrid extends Component {
@@ -12,7 +11,8 @@ class ImageGrid extends Component {
     }
 
     render() {
-        const { isLoading, images, loadImages, error, imageStats } = this.props;
+        const { images, error, isLoading, loadImages, imageStats } = this.props;
+
         return (
             <div className="content">
                 <section className="grid">
@@ -30,14 +30,11 @@ class ImageGrid extends Component {
                             />
                         </div>
                     ))}
+                    {error && <div className="error">{error.toString()}</div>}
+                    <Button onClick={() => loadImages()} loading={isLoading}>
+                        Load Images
+                    </Button>
                 </section>
-                {error && <div className="error">{JSON.stringify(error)}</div>}
-                <Button
-                    onClick={() => !isLoading && loadImages()}
-                    loading={isLoading}
-                >
-                    Load More
-                </Button>
             </div>
         );
     }
