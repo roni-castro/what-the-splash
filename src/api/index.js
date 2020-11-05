@@ -3,7 +3,7 @@ const API_URL = 'https://api.unsplash.com/photos/';
 
 export const fetchImages = async page => {
     const response = await fetch(
-        `${API_URL}?client_id=${key}&per_page=10&page=${page}`,
+        `${API_URL}?client_id=${key}&per_page=5&page=${page}`,
     );
     const data = await response.json();
     if (response.status >= 400) {
