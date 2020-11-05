@@ -4,52 +4,46 @@ import { getPage, handleImagesLoad } from '../imagesSaga';
 import * as api from '../../api'; // we'll mock the fetchImages api
 import { setImages, setError } from '../../actions';
 
-test('selector should return the desired page', () => {
-    const nextPage = 1;
-    const state = { nextPage };
-    const res = getPage(state);
-    expect(res).toBe(nextPage);
-});
+describe('imagesSaga', () => {
+    it('should return the next page correctly', () => {
+        const state = { nextPage: 1 };
+        const nextPage = getPage(state);
+        expect(nextPage).toBe(1);
+    });
 
-test('should load and handle images in case of success', async () => {
-    // we push all dispatched actions to make assertions easier
-    // and our tests less brittle
-    const dispatchedActions = [];
+    it('should set images into state in case of success', async () => {
+        const dispatchedActions = [];
 
-    // we don't want to perform an actual api call in our tests
-    // so we will mock the fetchImages api with jest
-    // this will mutate the dependency which we may reset if other tests
-    // are dependent on it
-    const mockedImages = ['img1', 'img2'];
-    api.fetchImages = jest.fn(() => Promise.resolve(mockedImages));
+        const mockedImages = ['img1', 'img2'];
+        const fetchImagesSpy = jest
+            .spyOn(api, 'fetchImages')
+            .mockResolvedValue(mockedImages);
 
-    const fakeStore = {
-        getState: () => ({ nextPage: 1 }),
-        dispatch: action => dispatchedActions.push(action),
-    };
+        const fakeStore = {
+            getState: () => ({ nextPage: 1 }),
+            dispatch: action => dispatchedActions.push(action),
+        };
 
-    // wait for saga to complete
-    await runSaga(fakeStore, handleImagesLoad).done;
+        await runSaga(fakeStore, handleImagesLoad).toPromise();
 
-    expect(api.fetchImages.mock.calls.length).toBe(1);
-    expect(dispatchedActions).toContainEqual(setImages(mockedImages));
-});
+        expect(fetchImagesSpy).toHaveBeenCalledWith(1);
+        expect(dispatchedActions).toContainEqual(setImages(mockedImages));
+    });
 
-test('should handle image load errors in case of failure', async () => {
-    const dispatchedActions = [];
+    it('should set error in state case of fail', async () => {
+        const dispatchedActions = [];
 
-    // we simulate an error by rejecting the promise
-    // then we assert if our saga dispatched the action(s) correctly
-    const error = 'API server is down';
-    api.fetchImages = jest.fn(() => Promise.reject(error));
+        const error = new Error('error message');
+        jest.spyOn(api, 'fetchImages').mockRejectedValue(error);
 
-    const fakeStore = {
-        getState: () => ({ nextPage: 1 }),
-        dispatch: action => dispatchedActions.push(action),
-    };
+        const fakeStore = {
+            getState: () => ({ nextPage: 1 }),
+            dispatch: action => dispatchedActions.push(action),
+        };
 
-    await runSaga(fakeStore, handleImagesLoad).done;
+        await runSaga(fakeStore, handleImagesLoad).toPromise();
 
-    expect(api.fetchImages.mock.calls.length).toBe(1);
-    expect(dispatchedActions).toContainEqual(setError(error));
+        expect(fetchImagesSpy).toHaveBeenCalledWith(1);
+        expect(dispatchedActions).toContainEqual(setError(error));
+    });
 });
