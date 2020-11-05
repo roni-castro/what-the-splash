@@ -3,7 +3,7 @@ import { IMAGES } from '../constants';
 import { fetchImageStats } from '../api';
 import { loadImageStats, setImageStats, setImageStatsError } from '../actions';
 
-function* handleImageStatLoad(id) {
+export function* handleImageStatLoad(id) {
     try {
         yield put(loadImageStats(id));
         const response = yield retry(3, 1000, fetchImageStats, id);
