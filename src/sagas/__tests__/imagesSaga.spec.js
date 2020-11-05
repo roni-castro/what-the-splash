@@ -34,7 +34,9 @@ describe('imagesSaga', () => {
         const dispatchedActions = [];
 
         const error = new Error('error message');
-        jest.spyOn(api, 'fetchImages').mockRejectedValue(error);
+        const fetchImagesSpy = jest
+            .spyOn(api, 'fetchImages')
+            .mockRejectedValue(error);
 
         const fakeStore = {
             getState: () => ({ nextPage: 1 }),
