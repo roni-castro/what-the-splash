@@ -1,3 +1,8 @@
-import imageSaga from './imagesSaga';
+import { all } from 'redux-saga/effects';
 
-export default imageSaga;
+import imagesSaga from './imagesSaga';
+import imageStatsSaga from './imageStatsSaga';
+
+export default function* rootSaga() {
+    yield all([imagesSaga(), imageStatsSaga()]);
+}
