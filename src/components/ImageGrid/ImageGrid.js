@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadImages } from '../../actions';
 import Button from '../Button';
+import Stats from '../Stats';
 
 import './styles.css';
 
@@ -11,7 +12,7 @@ class ImageGrid extends Component {
     }
 
     render() {
-        const { images, error, isLoading, loadImages } = this.props;
+        const { images, error, isLoading, loadImages, imageStats } = this.props;
 
         return (
             <div className="content">
@@ -23,6 +24,7 @@ class ImageGrid extends Component {
                                 image.height / image.width,
                             )}`}
                         >
+                            <Stats stats={imageStats[image.id]} />
                             <img
                                 src={image.urls.small}
                                 alt={image.user.username}
