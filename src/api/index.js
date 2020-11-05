@@ -1,4 +1,4 @@
-const key = '5f96323678d05ff0c4eb264ef184556868e303b32a2db88ecbf15746e6f25e02';
+const key = '5nNvLtch2mxPD3eXhzCcm2vF5bj_LCr9LlR2bSDER4g';
 const API_URL = 'https://api.unsplash.com/photos/';
 
 export const fetchImages = async page => {
