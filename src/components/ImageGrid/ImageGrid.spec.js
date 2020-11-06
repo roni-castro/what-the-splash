@@ -34,11 +34,11 @@ describe('<ImageGrid />', () => {
 
         await waitForComponentToPaint(wrapper, 300);
 
-        const statsComponents = wrapper.find(Stats);
-        const statsDownloadsCounterComponents = wrapper.find('.stats');
+        const statsComponents = wrapper.find('Stats');
+        const statsBadgeComponents = wrapper.find('.stats');
 
         expect(statsComponents).toHaveLength(imagesResponsePage1.length);
-        expect(statsDownloadsCounterComponents).toHaveLength(
+        expect(statsBadgeComponents).toHaveLength(
             imagesResponsePage1.length,
         );
     });
